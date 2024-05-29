@@ -16,11 +16,11 @@ class App extends Component {
       mode: 'welcome',
       selected_content_id:2,
       welcome:{title:'welcome', desc:'Hi, Hello!!!'},
-      Subject:{title:"WEB~!~!", sub:"World ! Wide! Web!"},
+      Subject:{title:"React Study", sub:"게시판"},
       contents:[
-        {id:1, title:"HTML", desc:"HTML is for information"},
-        {id:2, title:"CSS", desc:"CSS is for design"},
-        {id:3, title:"JavaScript", desc:"JavaScript is for interactive"}
+        {id:1, title:"HTML", desc:"HTML is for information", view:0},
+        {id:2, title:"CSS", desc:"CSS is for design", view:0},
+        {id:3, title:"JavaScript", desc:"JavaScript is for interactive", view:0}
       ]
     }
   }
@@ -51,7 +51,7 @@ class App extends Component {
         // this.state.contents.push({id:this.max_content_id, title:_title, desc:_desc});
         // var _contents = this.state.contents.concat({id:this.max_content_id, title:_title, desc:_desc});
         var newContetns = Array.from(this.state.contents);
-        newContetns.push({id:this.max_content_id, title:_title, desc:_desc});
+        newContetns.push({id:this.max_content_id, title:_title, desc:_desc, view:0});
         this.setState({
           // contents: this.state.contents
           // contents: _contents
@@ -87,7 +87,6 @@ class App extends Component {
 
     return (
       <div className="App">
-        Hello, React~
         <Subject 
         title={this.state.Subject.title} 
         sub={this.state.Subject.sub}
@@ -95,19 +94,21 @@ class App extends Component {
           this.setState({mode:'welcome'});
         }.bind(this)}>
         </Subject>
-        {/* <header>
-            <h1><a href='/' onClick={function(e){
-              console.log(e);
-              e.preventDefault();
-              // this.state.mode = 'welcome';
-              this.setState({
-                mode: 'welcome'
-              });
-            }.bind(this)}>{this.state.Subject.title}</a></h1>
-            {this.state.Subject.sub}
-        </header> */}
         <TOC onChangePage={function(id){
-          this.setState({mode:'read', selected_content_id:Number(id)});
+
+          var i = 0;
+          var _contents = Array.from(this.state.contents);
+
+          while(i < _contents.length){
+            if(_contents[i].id === Number(id)){
+              _contents[i].view += 1; 
+              break;
+            }
+
+            i += 1;
+          }
+
+          this.setState({mode:'read', selected_content_id:Number(id), contents: _contents});
         }.bind(this)} 
         data={this.state.contents}>
         </TOC>
