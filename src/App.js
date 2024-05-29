@@ -67,7 +67,7 @@ class App extends Component {
         var i = 0;
         while(i < _contents.length){
           if(_contents[i].id === _id){
-            _contents[i] = {id:_id, title:_title, desc: _desc};
+            _contents[i] = {id:_id, title:_title, desc: _desc, view: _contents[i].view};
             break;
           }
           i = i + 1;
