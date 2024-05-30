@@ -377,3 +377,8 @@
 .pad-20{
   padding: 20px;
 }
+
+.right{
+  margin-right: auto;
+  text-align: right;
+}

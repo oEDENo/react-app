@@ -10,50 +10,51 @@ class UpdateContent extends Component {
     }
     this.inputFormHandler = this.inputFormHandler.bind(this);
   }
+
   inputFormHandler(e){
     this.setState({[e.target.name]:e.target.value});
   }
-    render(){
-      console.log(this.props.data);
+
+  render(){
     console.log('UpdateContent', 'render');
-      return (
-        <article>
-              <h2>Update</h2>
-              <form action="/crete_process" methos="post"
-                onSubmit={function(e){
-                  e.preventDefault();
-                  this.props.onSubmit(
-                    this.state.id,
-                    this.state.title,
-                    this.state.desc
-                  );
-                }.bind(this)}
-              >
-                <input type="hidden" name="id" value={this.state.id}></input>
-                <p>
-                  <input 
-                    type='text' 
-                    name='title' 
-                    placeholder='title'
-                    value={this.state.title}
-                    onChange={this.inputFormHandler}
-                  ></input>
-                </p>
-                <p>
-                  <textarea 
-                    onChange={this.inputFormHandler}
-                    name="desc" 
-                    placeholder='description' 
-                    value={this.state.desc}
-                  ></textarea>
-                </p>
-                <p>
-                  <input type='submit' value="완료"></input>
-                </p>
-              </form>
-          </article>
-      );
-    }
+    return (
+      <article>
+            <h2>Update</h2>
+            <form action="/update" methos="post"
+              onSubmit={function(e){
+                e.preventDefault();
+                this.props.onSubmit(
+                  this.state.id,
+                  this.state.title,
+                  this.state.desc
+                );
+              }.bind(this)}
+            >
+              <input type="hidden" name="id" value={this.state.id}></input>
+              <p>
+                <input 
+                  type='text' 
+                  name='title' 
+                  placeholder='title'
+                  value={this.state.title}
+                  onChange={this.inputFormHandler}
+                ></input>
+              </p>
+              <p>
+                <textarea 
+                  onChange={this.inputFormHandler}
+                  name="desc" 
+                  placeholder='description' 
+                  value={this.state.desc}
+                ></textarea>
+              </p>
+              <p>
+                <input type='submit' value="완료"></input>
+              </p>
+            </form>
+        </article>
+    );
   }
+}
 
 export default UpdateContent;
