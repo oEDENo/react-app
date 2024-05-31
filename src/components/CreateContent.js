@@ -20,7 +20,12 @@ class CreateContent extends Component {
             <textarea name="desc" placeholder='description'></textarea>
           </p>
           <p>
-            <input type='submit' value="작성"></input>
+            <input type='submit' className='btn-gradient cyan mini' value="작성"></input>
+            <input type='button' className='btn-gradient purple mini' value='취소'
+              onClick={function(){
+                
+              }.bind(this)}
+            ></input>
           </p>
         </form>
       </article>

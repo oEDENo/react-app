@@ -34,11 +34,15 @@ class TOC extends Component {
 
         return (
             <table className='table'>
-                <th className='header'>
-                    <td className='fix-45'>목록</td>
-                    <td className='fix-15'>조회수</td>
-                </th>
-                {lists}
+                <thead>
+                    <tr>
+                        <td className='header fix-45'>목록</td>
+                        <td className='header fix-15'>조회수</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {lists}
+                </tbody>
             </table>
         );
     }

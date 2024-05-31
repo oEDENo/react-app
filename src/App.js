@@ -13,7 +13,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3;
     this.state = {
-      mode: 'welcome',
+      mode: 'list',
       selected_content_id:1,
       welcome:{title:'welcome', desc:'Hi, Hello!!!'},
       Subject:{title:"React Study", sub:"📋 Board 📋"},
@@ -43,7 +43,7 @@ class App extends Component {
 
     } else if(this.state.mode === 'read'){
       var _content = this.getReadContent();
-      _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>;
+      _article = <ReadContent title={_content.title} desc={_content.desc} view={_content.view}></ReadContent>;
 
     } else if(this.state.mode === 'create'){
       _article = <CreateContent onSubmit={function(_title, _desc){
@@ -78,8 +78,63 @@ class App extends Component {
           mode: 'read'
         });
       }.bind(this)}></UpdateContent>
+
+    } else if (this.state.mode === 'list') {
+      _article = <TOC 
+        onChangePage={function(id){
+          var _contents = Array.from(this.state.contents);
+          
+          for(var i = 0;  i < _contents.length; i++){
+            if(_contents[i].id === Number(id)){
+              _contents[i].view += 1;
+              break;
+            }
+          }
+
+          this.setState({mode:'read', selected_content_id:Number(id), contents: _contents});
+        }.bind(this)} 
+        data={this.state.contents}
+      >
+      </TOC>
     }
     return _article;
+  }
+
+  getControl(){
+    var result = null;
+
+    if(this.state.mode !== 'create' && this.state.mode !== 'update'){
+      result = <Control 
+        onChangeMode={function(_mode){
+          if(_mode === 'delete'){
+            if(window.confirm('삭제하시겠습니까?')){
+              var _contents = Array.from(this.state.contents);
+
+              for(var i = 0;  i < _contents.length; i++){
+                if(_contents[i].id === this.state.selected_content_id){
+                  _contents.splice(i, 1);
+                  break;
+                }
+              }
+
+              this.setState({
+                mode:'list',
+                contents:_contents
+              });
+              alert('success delete!!');
+            }
+          } else {
+            this.setState({
+              mode:_mode
+            });
+          }
+          
+        }.bind(this)}
+      >
+      </Control>
+    }
+
+    return result;
   }
 
   render() {
@@ -97,52 +152,8 @@ class App extends Component {
         >
         </Subject>
 
-        <TOC 
-          onChangePage={function(id){
-            var _contents = Array.from(this.state.contents);
-            
-            for(var i = 0;  i < _contents.length; i++){
-              if(_contents[i].id === Number(id)){
-                _contents[i].view += 1;
-                break;
-              }
-            }
-
-            this.setState({mode:'read', selected_content_id:Number(id), contents: _contents});
-          }.bind(this)} 
-          data={this.state.contents}
-        >
-        </TOC>
-
-        <Control 
-          onChangeMode={function(_mode){
-            if(_mode === 'delete'){
-              if(window.confirm('삭제하시겠습니까?')){
-                var _contents = Array.from(this.state.contents);
-
-                for(var i = 0;  i < _contents.length; i++){
-                  if(_contents[i].id === this.state.selected_content_id){
-                    _contents.splice(i, 1);
-                    break;
-                  }
-                }
-
-                this.setState({
-                  mode:'welcome',
-                  contents:_contents
-                });
-                alert('success delete!!');
-              }
-            } else {
-              this.setState({
-                mode:_mode
-              });
-            }
-            
-          }.bind(this)}
-        >
-        </Control>
         {this.getContent()}
+        {this.getControl()}
       </div>
     );
   }
